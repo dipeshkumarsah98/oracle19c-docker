@@ -21,12 +21,13 @@ Before you begin
 Start your container environment
 --------------------------------
 These instructions assume you are using Docker desktop. Start up docker by opening Docker desktop app.
-For windows: [https://docs.docker.com/desktop/install/windows-install](https://docs.docker.com/desktop/install/windows-install/)
-For Linux: [https://docs.docker.com/desktop/install/ubuntu](https://docs.docker.com/desktop/install/ubuntu/)
-For MacOs: [https://docs.docker.com/desktop/install/mac-install](https://docs.docker.com/desktop/install/mac-install/)
+- For windows: [https://docs.docker.com/desktop/install/windows-install](https://docs.docker.com/desktop/install/windows-install/)
+- For Linux: [https://docs.docker.com/desktop/install/ubuntu](https://docs.docker.com/desktop/install/ubuntu/)
+- For MacOs: [https://docs.docker.com/desktop/install/mac-install](https://docs.docker.com/desktop/install/mac-install/)
 
 Building
 --------
+For Unix (MacOS) and Linux, you can use bash terminal, and for Windows, you have to use **git bash** (It is installed automatically when you install git in your machine).
 ````
 cd OracleDatabase/SingleInstance/dockerfiles
 ./buildContainerImage.sh -v 19.3.0 -e
@@ -38,8 +39,7 @@ If the build fails saying you are out of space, check how much space you have av
 Running
 -------
 
-To use the sensible defaults:
-
+To use the sensible defaults (Run this command in git bash in windows):
 ```bash
 docker run \
 --name oracle19c --ulimit nofile=65536:65536 \
@@ -98,6 +98,13 @@ Note that if you do not specify INIT_SGA_SIZE and INIT_PGA_SIZE then Oracle will
 
 Connecting to Oracle
 --------------------
+You have to make sure that your container is ready to use before connecting to it using SQL Developer or your preferred IDE. You have see the logs of the container using this docker command.
+
+```bash
+docker logs --follow oracle19c                                                                                                                                            at 03:29:33 PM
+```
+When you are running it for the first time, it gonna take nearly 10 min to complete the initialisation process. You have to verify whether the database is ready to use or not by watching container logs (Containers means your database in this case). 
+![image](https://github.com/user-attachments/assets/4ee3b597-7bbf-41b5-bf0f-969311d60203)
 
 Once the container has been started you can connect to it like any other database. Note we are using `Service Name` and not the SID (since PDB uses Service Name).
 
